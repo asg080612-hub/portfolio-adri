@@ -11,8 +11,8 @@
         /* --- CONFIGURACIÓN BÁSICA --- */
         :root {
             --bg: #050505;
-            --primary: #8a2be2;
-            --secondary: #00f3ff;
+            --primary: #8a2be2; /* Violeta */
+            --secondary: #00f3ff; /* Cyan */
             --text: #ffffff;
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
@@ -28,15 +28,15 @@
             overflow-x: hidden;
         }
 
-        /* --- CURSOR --- */
-        .cursor-dot, .cursor-outline {
+        /* --- CURSOR (USANDO ID AHORA) --- */
+        #cursor-dot, #cursor-outline {
             position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
             border-radius: 50%; z-index: 9999; pointer-events: none;
         }
-        .cursor-dot { width: 8px; height: 8px; background-color: var(--secondary); }
-        .cursor-outline { width: 40px; height: 40px; border: 1px solid var(--secondary); transition: width 0.2s, height 0.2s, background-color 0.2s; }
-        .cursor-outline.hover-active {
-            width: 60px; height: 60px; background-color: rgba(0, 243, 255, 0.1);
+        #cursor-dot { width: 8px; height: 8px; background-color: var(--secondary); }
+        #cursor-outline { width: 40px; height: 40px; border: 1px solid var(--secondary); transition: all 0.1s ease-out; }
+        .hover-active {
+            width: 60px !important; height: 60px !important; background-color: rgba(0, 243, 255, 0.1);
             box-shadow: 0 0 20px var(--secondary); border-color: var(--secondary);
         }
 
@@ -50,7 +50,6 @@
         .nav-link { color: #888; font-size: 1.4rem; position: relative; transition: 0.3s; display: flex; justify-content: center; align-items: center; text-decoration: none; }
         .nav-link:hover { color: var(--secondary); transform: translateY(-5px); }
         
-        /* Tooltip del menú */
         .nav-link::after {
             content: attr(data-name); position: absolute; top: -45px; left: 50%; transform: translateX(-50%) scale(0.8);
             background: var(--primary); color: white; padding: 5px 12px; border-radius: 8px; font-size: 0.8rem;
@@ -80,24 +79,29 @@
         .btn-outline { border: 1px solid rgba(255,255,255,0.3); }
         .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
         
-        /* CUBO 3D Y ANIMACIÓN */
         .visual-content { width: 45%; height: 100%; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
-        .cube-wrapper { position: relative; transform-style: preserve-3d; }
-        .cube { 
-            width: 250px; height: 250px; 
-            transform-style: preserve-3d; 
-            animation: rotate 20s linear infinite; 
-        }
+        .cube-wrapper { position: relative; transform-style: preserve-3d; animation: float 6s ease-in-out infinite; }
+        
+        /* Animación del Cubo */
+        .cube { width: 250px; height: 250px; transform-style: preserve-3d; animation: rotate 20s linear infinite; will-change: transform; }
+        
         .face { position: absolute; width: 250px; height: 250px; background: rgba(138, 43, 226, 0.05); border: 2px solid var(--secondary); display: flex; justify-content: center; align-items: center; font-size: 4rem; color: var(--secondary); box-shadow: 0 0 20px rgba(0, 243, 255, 0.1) inset; backdrop-filter: blur(2px); }
         .front { transform: translateZ(125px); } .back { transform: rotateY(180deg) translateZ(125px); }
         .right { transform: rotateY(90deg) translateZ(125px); } .left { transform: rotateY(-90deg) translateZ(125px); }
         .top { transform: rotateX(90deg) translateZ(125px); } .bottom { transform: rotateX(-90deg) translateZ(125px); }
 
-        /* --- SECCIÓN HABILIDADES --- */
-        .section-layout { min-height: 100vh; background-color: #030303; display: flex; align-items: center; justify-content: center; padding: 100px 0; overflow: hidden; opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
-        .section-layout.visible { opacity: 1; transform: translateY(0); }
+        /* --- SECCIONES COMUNES --- */
+        .section-layout, .projects-mod-section, .contact-section { 
+            min-height: 100vh; background-color: #030303; display: flex; 
+            flex-direction: column; align-items: center; justify-content: center; 
+            padding: 100px 0; overflow: hidden; opacity: 0; transform: translateY(50px); 
+            transition: 1s ease-out; position: relative;
+        }
+        .section-layout.visible, .projects-mod-section.visible, .contact-section.visible { opacity: 1; transform: translateY(0); }
+
+        /* Skills */
         .skills-main-container { width: 85%; display: flex; gap: 80px; align-items: flex-start; }
-        .intro-text { flex: 1; max-width: 450px; }
+        .intro-text { flex: 1; max-width: 450px; text-align: left; }
         .section-tag { font-family: 'Space Grotesk'; font-size: 0.9rem; letter-spacing: 2px; color: #888; margin-bottom: 10px; display: block; text-transform: uppercase; }
         .section-title { font-size: 3.5rem; font-weight: 700; margin-bottom: 20px; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .section-desc { font-size: 1.1rem; color: #aaa; line-height: 1.6; margin-bottom: 40px; }
@@ -114,7 +118,7 @@
         .skill-card[title="React"]:hover { border-color: #61dbfb; color: #61dbfb; box-shadow: 0 0 20px rgba(97, 219, 251, 0.4); }
         .skill-card[title="Node.js"]:hover { border-color: #68a063; color: #68a063; box-shadow: 0 0 20px rgba(104, 160, 99, 0.4); }
 
-        /* --- SECCIÓN EXPERIENCIA --- */
+        /* Experiencia */
         .exp-container { width: 85%; display: flex; flex-direction: column; gap: 40px; }
         .job-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 50px; display: flex; gap: 50px; align-items: center; transition: 0.3s; }
         .job-card:hover { border-color: var(--secondary); box-shadow: 0 0 30px rgba(0, 243, 255, 0.1); }
@@ -124,9 +128,7 @@
         .job-visual { flex: 1; height: 300px; border-radius: 20px; background: linear-gradient(135deg, #FF0080, #7928CA); display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 40px rgba(255, 0, 128, 0.3); }
         .job-logo { width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
 
-        /* --- SECCIÓN PROYECTOS --- */
-        .projects-mod-section { min-height: 100vh; background-color: #030303; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 0; overflow: hidden; opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
-        .projects-mod-section.visible { opacity: 1; transform: translateY(0); }
+        /* Proyectos */
         .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; width: 85%; max-width: 1400px; margin-top: 40px; }
         .proj-card { border-radius: 30px; overflow: hidden; position: relative; height: 450px; transition: 0.4s ease; border: 1px solid rgba(255,255,255,0.1); }
         .proj-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
@@ -137,10 +139,12 @@
         .proj-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9)); }
         .proj-title { font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 10px; font-family: 'Space Grotesk'; }
         .proj-desc { color: rgba(255,255,255,0.8); font-size: 1.1rem; line-height: 1.5; }
-        
-        /* --- SECCIÓN CONTACTO --- */
-        .contact-section { min-height: 100vh; background: #020202; position: relative; display: flex; align-items: center; justify-content: center; padding: 100px 0; overflow: hidden; opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
-        .contact-section.visible { opacity: 1; transform: translateY(0); }
+        .proj-icons { position: absolute; top: 40px; right: 40px; font-size: 3rem; opacity: 0.3; color: white; transform: rotate(-10deg); }
+        .floating-icon { position: absolute; font-size: 4rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); animation: float 6s ease-in-out infinite; }
+        .i-1 { top: 30%; left: 10%; animation-delay: 0s; }
+        .i-2 { bottom: 20%; right: 10%; animation-delay: 2s; font-size: 3rem; }
+
+        /* Contacto */
         .contact-bg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.05), transparent 70%); z-index: 0; pointer-events: none; }
         .contact-wrapper { width: 85%; max-width: 1000px; z-index: 2; display: flex; gap: 50px; align-items: center; }
         .contact-info { flex: 1; text-align: left; }
@@ -170,7 +174,6 @@
         .btn-talk:hover { background: white; color: #5e17eb; box-shadow: 0 0 30px rgba(255,255,255,0.5); }
         .footer-credits { position: absolute; bottom: 20px; color: rgba(255,255,255,0.6); font-size: 0.9rem; }
 
-        /* KEYFRAMES */
         @keyframes rotate { 0% { transform: rotateX(0deg) rotateY(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
         @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-20px);} }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -181,7 +184,7 @@
             .hero-section, .section-layout, .contact-section, .projects-mod-section { height: auto; padding: 80px 0; }
             .text-content, .visual-content, .intro-text, .skills-grid, .contact-info, .contact-form-card { width: 100%; }
             .visual-content { height: 300px; margin-top: 50px; }
-            .cursor-dot, .cursor-outline { display: none; }
+            #cursor-dot, #cursor-outline { display: none; }
             h1 { font-size: 3rem; }
             .contact-item { justify-content: center; }
             .contact-info { text-align: center; }
@@ -193,8 +196,8 @@
 </head>
 <body>
 
-    <div class="cursor-dot" data-cursor-dot></div>
-    <div class="cursor-outline" data-cursor-outline></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
 
     <div class="floating-nav">
         <a href="#hero" class="nav-link" data-name="Inicio"><i class="fas fa-home"></i></a>
@@ -308,8 +311,8 @@
                         <p class="proj-desc">Identificación digital segura y personalizable para servidores Discord.</p>
                     </div>
                     <div style="display:flex; gap:10px; margin-top:10px;">
-                        <i class="fab fa-js" style="font-size:1.5rem; color:yellow;"></i>
-                        <i class="fab fa-discord" style="font-size:1.5rem; color:white;"></i>
+                        <i class="fab fa-js floating-icon i-1" style="color:yellow; top:auto; left:20px; bottom:20px;"></i>
+                        <i class="fab fa-discord floating-icon i-2" style="color:white; top:20px; right:20px;"></i>
                     </div>
                 </div>
             </div>
@@ -322,7 +325,7 @@
                         <p class="proj-desc">Control total de sanciones y registro de arrestos en tiempo real.</p>
                     </div>
                     <div style="display:flex; gap:10px; margin-top:10px;">
-                        <i class="fas fa-gavel" style="font-size:1.5rem; color:white;"></i>
+                        <i class="fas fa-gavel floating-icon i-1" style="color:white; top:auto; left:20px; bottom:20px;"></i>
                     </div>
                 </div>
             </div>
@@ -384,8 +387,10 @@
     </section>
 
     <script>
-        // FORMULARIO AJAX
+        // SEGURIDAD: ESPERAR A QUE CARGUE TODO
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. FORMULARIO AJAX
             const form = document.getElementById('contactForm');
             const btn = document.getElementById('formBtn');
             const msg = document.getElementById('success-msg');
@@ -421,26 +426,27 @@
                 });
             }
 
-            // CURSOR & ANIMACIONES
-            const cursorDot = document.querySelector(".cursor-dot");
-            const cursorOutline = document.querySelector(".cursor-outline");
+            // 2. CURSOR & ANIMACIONES
+            const cursorDot = document.getElementById("cursor-dot");
+            const cursorOutline = document.getElementById("cursor-outline");
             const interactiveEls = document.querySelectorAll('a, button, input, textarea, .skill-card, .proj-card, .nav-link');
 
-            window.addEventListener("mousemove", (e) => {
-                const posX = e.clientX; const posY = e.clientY;
-                if(cursorDot) { cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`; }
-                if(cursorOutline) { cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" }); }
-            });
+            if (cursorDot && cursorOutline) {
+                window.addEventListener("mousemove", (e) => {
+                    const posX = e.clientX; const posY = e.clientY;
+                    cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+                    cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+                });
 
-            interactiveEls.forEach(el => {
-                el.addEventListener('mouseenter', () => { if(cursorOutline) cursorOutline.classList.add('hover-active'); });
-                el.addEventListener('mouseleave', () => { if(cursorOutline) cursorOutline.classList.remove('hover-active'); });
-            });
+                interactiveEls.forEach(el => {
+                    el.addEventListener('mouseenter', () => { cursorOutline.classList.add('hover-active'); });
+                    el.addEventListener('mouseleave', () => { cursorOutline.classList.remove('hover-active'); });
+                });
+            }
 
-            // 3D Parallax Cubo
-            const visualArea = document.getElementById('visual-area');
+            // 3. PARALLAX CUBO 3D
             const cubeWrapper = document.querySelector('.cube-wrapper');
-            if (visualArea && cubeWrapper) {
+            if (cubeWrapper) {
                 document.addEventListener('mousemove', (e) => {
                     const x = (window.innerWidth - e.pageX * 2) / 50;
                     const y = (window.innerHeight - e.pageY * 2) / 50;
@@ -448,7 +454,7 @@
                 });
             }
 
-            // Scroll Reveal
+            // 4. SCROLL REVEAL
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
